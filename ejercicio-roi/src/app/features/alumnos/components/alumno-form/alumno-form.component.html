@@ -1,0 +1,86 @@
+<form class="formularioUser" [formGroup]="alumnoForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Primer apellido</mat-label>
+    <input matInput formControlName="apellido1" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Segundo apellido</mat-label>
+    <input matInput formControlName="apellido2" />
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Nickname</mat-label>
+    <input matInput formControlName="nickname" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>email</mat-label>
+    <input matInput formControlName="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>dni</mat-label>
+    <input matInput formControlName="dni" />
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Teléfono Móvil</mat-label>
+    <input matInput formControlName="telefonoMovil" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Otro teléfono</mat-label>
+    <input matInput formControlName="otroTelefono" />
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Pais</mat-label>
+    <input matInput formControlName="pais" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Provicia</mat-label>
+    <input matInput formControlName="provincia" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Codigo postal</mat-label>
+    <input matInput formControlName="codigoPostal" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Localidad</mat-label>
+    <input matInput formControlName="localidad" />
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <div class="passContainer">
+    <mat-form-field appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="contrasena" />
+    </mat-form-field>
+
+    <app-strength-bar [controller] = "alumnoForm.get('nombre')"></app-strength-bar>
+  </div>
+
+  <br />
+  <div class="addBtnContainer">
+    <button mat-flat-button color="primary" type="submit" class="addAlumnoBtn">
+      <!-- [disabled]="!profileForm.valid" -->
+      Añadir
+    </button>
+  </div>
+</form>

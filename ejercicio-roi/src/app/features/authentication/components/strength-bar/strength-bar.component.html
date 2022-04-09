@@ -1,0 +1,18 @@
+<div
+  [ngClass]="{
+    'nonePass': puntuation === 0,
+    'muyDebil': puntuation === 1,
+    'debil': puntuation === 2,
+    'moderada': puntuation === 3,
+    'fuerte': puntuation === 4,
+    'muyFuerte': puntuation === 5
+  }"
+>
+  <mat-progress-bar
+    class=""
+    mode="determinate"
+    [value]="puntuation*20"
+  ></mat-progress-bar>
+
+  <p class="strengthPassP">{{message}}</p>
+</div>
