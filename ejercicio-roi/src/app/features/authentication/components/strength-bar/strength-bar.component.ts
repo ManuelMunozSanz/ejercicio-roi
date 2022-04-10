@@ -31,8 +31,11 @@ export class StrengthBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.controller?.valueChanges.subscribe((password: string) => {
-
-      this.checkStrength(password);
+      if(!!password){
+        this.checkStrength(password);
+      }else{
+        this._strengthPuntuation = 0;
+      }
 
       if(this._strengthPuntuation === 0){
         this.puntuation = 0;
@@ -98,8 +101,6 @@ export class StrengthBarComponent implements OnInit {
     if (this._strengthPuntuation === 9) {
       this._strengthPuntuation = 10;
     }
-
-    console.log(this._strengthPuntuation);
 
   }
 

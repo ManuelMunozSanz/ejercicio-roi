@@ -46,14 +46,32 @@
   <mat-divider></mat-divider>
 
   <mat-form-field appearance="fill">
-    <mat-label>Pais</mat-label>
-    <input matInput formControlName="pais" />
+    <mat-label>País</mat-label>
+    <mat-select formControlName="pais">
+      <mat-option *ngFor="let pais of paises" [value]="pais">
+        {{ pais }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Provicia</mat-label>
-    <input matInput formControlName="provincia" />
+  <mat-form-field
+    appearance="fill"
+    *ngIf="alumnoForm.value.pais === 'España'; else writeProvicia"
+  >
+    <mat-label>Provincia</mat-label>
+    <mat-select formControlName="provincia">
+      <mat-option *ngFor="let provincia of provincias" [value]="provincia">
+        {{ provincia }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
+
+  <ng-template #writeProvicia>
+    <mat-form-field appearance="fill">
+      <mat-label>Provicia</mat-label>
+      <input matInput formControlName="provincia" />
+    </mat-form-field>
+  </ng-template>
 
   <mat-form-field appearance="fill">
     <mat-label>Codigo postal</mat-label>
@@ -70,10 +88,26 @@
   <div class="passContainer">
     <mat-form-field appearance="fill">
       <mat-label>Contraseña</mat-label>
-      <input matInput formControlName="contrasena" />
+      <input
+        matInput
+        formControlName="contrasena"
+        [type]="hidePass ? 'password' : 'text'"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="hidePass = !hidePass"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePass"
+      >
+        <mat-icon>{{ hidePass ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
     </mat-form-field>
 
-    <app-strength-bar [controller] = "alumnoForm.get('nombre')"></app-strength-bar>
+    <app-strength-bar
+      [controller]="alumnoForm.get('contrasena')"
+    ></app-strength-bar>
   </div>
 
   <br />

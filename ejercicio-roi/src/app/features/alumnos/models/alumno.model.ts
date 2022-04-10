@@ -1,22 +1,21 @@
 export class Alumno {
-  private _nombre: string;
-  private _apellido1: string;
 
-  private _apellido2?: string;
-  private _email: string;
-  private _dni: string;
-  private _telefonoMovil: string;
-  private _otroTelefono: string;
-  private _pais: string;
-  private _provincia: string;
-  private _codigoPostal: string;
-  private _localidad: string;
-  private _nickname: string;
-  private _contrasena: string;
+   _nombre: string;
+   _apellido1: string;
+   _apellido2: string;
+   _email: string;
+   _dni: string;
+   _telefonoMovil: number;
+   _otroTelefono: number;
+   _pais: string;
+   _provincia: string;
+   _codigoPostal: number;
+   _localidad: string;
+   _nickname: string;
+   _contrasena: string;
 
-
-  constructor(nombre: string, apellido1: string, apellido2: string, email: string, dni: string, telefonoMovil: string,
-    otroTelefono: string, pais: string, provincia: string, codigoPostal: string, localidad: string,
+  constructor(nombre: string, apellido1: string, apellido2: string, email: string, dni: string, telefonoMovil: number,
+    otroTelefono: number, pais: string, provincia: string, codigoPostal: number, localidad: string,
     nickname: string, contrasena: string,) {
 
     this._nombre = nombre;
@@ -34,4 +33,6 @@ export class Alumno {
     this._contrasena = contrasena;
 
   }
+
+
 }

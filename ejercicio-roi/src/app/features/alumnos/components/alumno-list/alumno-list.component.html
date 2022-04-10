@@ -1,1 +1,50 @@
 <p>alumno-list works!</p>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let alumno of alumnosList">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ alumno._nombre }} {{ alumno._apellido1 }} {{ alumno._apellido2 }}
+      </mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="expansionItems">
+      <div class="panelItem">
+        <h4>Nickname</h4>
+        {{ alumno._nickname }}
+      </div>
+      <div class="panelItem">
+        <h4>Dni</h4>
+        {{ alumno._dni }}
+      </div>
+      <div class="panelItem">
+        <h4>Email</h4>
+        {{ alumno._email }}
+      </div>
+      <div class="panelItem">
+        <h4>Teléfono móvil</h4>
+        {{ alumno._telefonoMovil }}
+      </div>
+      <div class="panelItem">
+        <h4>Otro teléfono</h4>
+        {{ alumno._otroTelefono }}
+      </div>
+      <div class="panelItem">
+        <h4>País</h4>
+        {{ alumno._pais }}
+      </div>
+      <div class="panelItem">
+        <h4>Provincia</h4>
+        {{ alumno._provincia }}
+      </div>
+      <div class="panelItem">
+        <h4>Código postal</h4>
+        {{ alumno._codigoPostal }}
+      </div>
+      <div class="panelItem">
+        <h4>Localidad</h4>
+        {{ alumno._localidad }}
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
