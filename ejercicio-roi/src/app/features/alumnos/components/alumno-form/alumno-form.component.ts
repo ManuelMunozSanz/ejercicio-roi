@@ -100,8 +100,9 @@ export class AlumnoFormComponent implements OnInit {
 
     );
 
+
     if (this.alumnoService.strengthPuntuation < 8 && confirm("La contraseña es inferior a 8 puntos, ¿Quieres manternerla?")
-      || this.alumnoService.strengthPuntuation > 8) {
+      || this.alumnoService.strengthPuntuation >= 8) {
 
       if (this.alumnoService.addAlumno(alumno)) {
         this.alumnoForm.reset();

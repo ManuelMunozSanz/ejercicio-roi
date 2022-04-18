@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlumnoModule } from './features/alumnos/alumno.module';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -16,9 +16,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     AppRoutingModule,
 
     AlumnoModule,
-
-    MatToolbarModule,
-
+    SharedModule,
 
     BrowserAnimationsModule
   ],
