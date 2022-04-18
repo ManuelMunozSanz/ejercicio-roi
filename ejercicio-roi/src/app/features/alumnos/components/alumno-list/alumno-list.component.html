@@ -1,10 +1,20 @@
-<p>alumno-list works!</p>
+<mat-form-field appearance="standard" class="buscador">
+  <mat-label>Buscador</mat-label>
+  <input matInput placeholder="Nombre/apellidos/dni/email" (keyup)="applyFilter($event)" #input>
+</mat-form-field>
 
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let alumno of alumnosList">
+  <mat-expansion-panel *ngFor="let alumno of alumnosListFilter">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ alumno._nombre }} {{ alumno._apellido1 }} {{ alumno._apellido2 }}
+        <div class="titleIcons">
+          <a routerLink="/edit/{{alumno._dni}}">
+            <mat-icon aria-hidden="false" aria-label="Icon edit" >edit</mat-icon>
+          </a>
+          <mat-icon aria-hidden="false" aria-label="Icon delete" (click)="removeAlumno(alumno._dni)">delete</mat-icon>
+        </div>
+
       </mat-panel-title>
       <mat-panel-description> </mat-panel-description>
     </mat-expansion-panel-header>
@@ -46,5 +56,6 @@
         {{ alumno._localidad }}
       </div>
     </div>
+
   </mat-expansion-panel>
 </mat-accordion>

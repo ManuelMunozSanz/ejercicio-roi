@@ -1,13 +1,25 @@
-.expansionItems{
+.buscador{
+  margin-left: 20px;
+}
+
+.titleIcons mat-icon {
+  font-size: 20px;
+  color: rgb(46, 45, 45);
+}
+
+.titleIcons {
+  margin-left: 10px;
+}
+
+.expansionItems {
   display: flex;
   flex-flow: wrap;
 }
 
-.panelItem{
+.panelItem {
   margin-right: 40px;
-
 }
-.panelItem h4{
+.panelItem h4 {
   font-size: 11px;
   height: 16px;
   color: rgb(124, 124, 124);

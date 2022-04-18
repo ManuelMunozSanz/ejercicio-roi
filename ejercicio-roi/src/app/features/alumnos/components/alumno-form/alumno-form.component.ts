@@ -2,7 +2,10 @@ import { Alumno } from './../../models/alumno.model';
 import { AlumnoService } from './../../services/alumno.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ArraysPaises } from './data/arraysPaises';
+import { ArraysPaises } from '../../data/arraysPaises';
+import { Router } from '@angular/router';
+import { SHA256, enc } from "crypto-js";
+
 
 @Component({
   selector: 'app-alumno-form',
@@ -17,8 +20,13 @@ export class AlumnoFormComponent implements OnInit {
   provincias = ArraysPaises.provincias;
   hidePass = true;
 
+  passStrength!: number;
 
-  constructor(public alumnoService : AlumnoService) {
+
+  constructor(
+    public alumnoService: AlumnoService,
+    private router: Router
+  ) {
     this.alumnoForm = new FormGroup({
       nombre: new FormControl(null, [Validators.required]),
       apellido1: new FormControl(null, [Validators.required]),
@@ -58,28 +66,24 @@ export class AlumnoFormComponent implements OnInit {
           Validators.required,
           Validators.minLength(6)
         ]
-        ),
-      });
-    }
+      ),
+    });
+  }
 
-    ngOnInit(): void {
-      let alumnoPrueba : Alumno = new Alumno("Manu","Muñoz","Sanz","manu@hm.com","54679879s",685798547,321546987,"España","Asturias",28954,"SsReyes","Manolito","contraseña");
-      let alumnoPrueba2 : Alumno = new Alumno("Diego","Astiz","Ameztoy","manu@hm.com","00000000s",685798547,321546987,"España","Asturias",28954,"SsReyes","Manolito","contraseña");
-      let alumnoPrueba3 : Alumno = new Alumno("Jorge","Andrés","Rodriguez","manu@hm.com","11111111s",685798547,321546987,"España","Asturias",28954,"SsReyes","Manolito","contraseña");
-      localStorage.setItem(alumnoPrueba._dni , JSON.stringify(alumnoPrueba));
-      localStorage.setItem(alumnoPrueba2._dni , JSON.stringify(alumnoPrueba2));
-      localStorage.setItem(alumnoPrueba3._dni , JSON.stringify(alumnoPrueba3));
-
-
-    }
+  ngOnInit(): void {
+    let alumnoPrueba: Alumno = new Alumno("Manu", "Muñoz", "Sanz", "manu@hm.com", "54679879s", 685798547, 321546987, "España", "Asturias", 28954, "SsReyes", "Manolito", "contraseña");
+    let alumnoPrueba2: Alumno = new Alumno("Diego", "Astiz", "Ameztoy", "manu@hm.com", "00000000s", 685798547, 321546987, "España", "Asturias", 28954, "SsReyes", "Manolito", "contraseña");
+    let alumnoPrueba3: Alumno = new Alumno("Jorge", "Andrés", "Rodriguez", "manu@hm.com", "11111111s", 685798547, 321546987, "España", "Asturias", 28954, "SsReyes", "Manolito", "contraseña");
+    localStorage.setItem(alumnoPrueba._dni, JSON.stringify(alumnoPrueba));
+    localStorage.setItem(alumnoPrueba2._dni, JSON.stringify(alumnoPrueba2));
+    localStorage.setItem(alumnoPrueba3._dni, JSON.stringify(alumnoPrueba3));
 
 
+  }
 
   onSubmit() {
-    let pais = this.alumnoForm.value.pais;
-    let provincia = this.alumnoForm.value.provincia;
 
-    let alumno : Alumno = new Alumno(
+    let alumno: Alumno = new Alumno(
       this.alumnoForm.value.nombre,
       this.alumnoForm.value.apellido1,
       this.alumnoForm.value.apellido2,
@@ -88,18 +92,26 @@ export class AlumnoFormComponent implements OnInit {
       this.alumnoForm.value.telefonoMovil,
       this.alumnoForm.value.otroTelefono,
       this.alumnoForm.value.pais,
-      this.alumnoForm.value.provicia,
+      this.alumnoForm.value.provincia,
       this.alumnoForm.value.codigoPostal,
       this.alumnoForm.value.localidad,
       this.alumnoForm.value.nickname,
-      this.alumnoForm.value.contraena,
+      SHA256(this.alumnoForm.value.contraena).toString(enc.Hex),
+
     );
 
-    if(this.alumnoService.addAlumno(alumno)){
-      this.alumnoForm.reset();
-    }else{
-      alert("Ya existe ese usuario");
+    if (this.alumnoService.strengthPuntuation < 8 && confirm("La contraseña es inferior a 8 puntos, ¿Quieres manternerla?")
+      || this.alumnoService.strengthPuntuation > 8) {
+
+      if (this.alumnoService.addAlumno(alumno)) {
+        this.alumnoForm.reset();
+        this.router.navigate(['/list']);
+
+      } else {
+        alert("Ya existe ese usuario");
+      }
     }
+
 
   }
 

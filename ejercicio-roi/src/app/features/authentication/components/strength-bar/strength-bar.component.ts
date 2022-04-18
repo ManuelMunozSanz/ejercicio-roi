@@ -1,5 +1,6 @@
+import { AlumnoService } from './../../../alumnos/services/alumno.service';
 import { AbstractControl } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { reduce } from 'rxjs';
 
 @Component({
@@ -11,7 +12,7 @@ export class StrengthBarComponent implements OnInit {
 
   @Input() controller: AbstractControl | null = null;
 
-  private _strengthPuntuation: number = 0;
+  @Output() _strengthPuntuation: number = 0;
 
   private readonly MESSAGE = {
     vacio: "",
@@ -27,7 +28,7 @@ export class StrengthBarComponent implements OnInit {
   puntuation = 0;
   valor = "50"
 
-  constructor() { }
+  constructor(private alumnoService : AlumnoService) { }
 
   ngOnInit(): void {
     this.controller?.valueChanges.subscribe((password: string) => {
@@ -101,6 +102,8 @@ export class StrengthBarComponent implements OnInit {
     if (this._strengthPuntuation === 9) {
       this._strengthPuntuation = 10;
     }
+
+    this.alumnoService.strengthPuntuation = this.strengthPuntuation;
 
   }
 

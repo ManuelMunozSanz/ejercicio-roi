@@ -1,9 +1,8 @@
-<form class="formularioUser" [formGroup]="alumnoForm" (ngSubmit)="onSubmit()">
+<form class="formularioUser" [formGroup]="alumnoEdit" (ngSubmit)="onSubmit()">
   <mat-form-field appearance="fill">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" />
   </mat-form-field>
-
   <mat-form-field appearance="fill">
     <mat-label>Primer apellido</mat-label>
     <input matInput formControlName="apellido1" />
@@ -26,9 +25,9 @@
     <input matInput formControlName="email" />
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="dniFormField">
     <mat-label>dni</mat-label>
-    <input matInput formControlName="dni" />
+    <input matInput formControlName="dni" readonly />
   </mat-form-field>
 
   <mat-divider></mat-divider>
@@ -56,7 +55,7 @@
 
   <mat-form-field
     appearance="fill"
-    *ngIf="alumnoForm.value.pais === 'España'; else writeProvicia"
+    *ngIf="alumnoEdit.value.pais === 'España'; else writeProvicia"
   >
     <mat-label>Provincia</mat-label>
     <mat-select formControlName="provincia">
@@ -84,38 +83,39 @@
   </mat-form-field>
 
   <mat-divider></mat-divider>
+  <div class="updatePassContainer">
+    <div class="passContainer">
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          formControlName="contrasena"
+          [type]="hidePass ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hidePass = !hidePass"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePass"
+        >
+          <mat-icon>{{ hidePass ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
 
-  <div class="passContainer">
-    <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
-      <input
-        matInput
-        formControlName="contrasena"
-        [type]="hidePass ? 'password' : 'text'"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        (click)="hidePass = !hidePass"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hidePass"
-      >
-        <mat-icon>{{ hidePass ? "visibility_off" : "visibility" }}</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <app-strength-bar
-      [controller]="alumnoForm.get('contrasena')"
-    ></app-strength-bar>
+      <app-strength-bar
+        [controller]="alumnoEdit.get('contrasena')"
+      ></app-strength-bar>
+    </div>
+    <button mat-flat-button color="primary" type="button" (click)="enablePass()">Actualizar</button>
   </div>
 
   <br />
   <div class="addBtnContainer">
-    <button mat-flat-button color="primary" type="submit" class="addAlumnoBtn" [disabled]="!alumnoForm.valid">
+    <button mat-flat-button color="primary" type="submit" class="addAlumnoBtn" [disabled]="!alumnoEdit.valid">
       <!--  -->
-      Añadir
+      Modificar
     </button>
   </div>
 </form>
-

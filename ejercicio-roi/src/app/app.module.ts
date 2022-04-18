@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlumnoModule } from './features/alumnos/alumno.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StrengthBarComponent } from './features/authentication/components/strength-bar/strength-bar.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -16,6 +16,9 @@ import { StrengthBarComponent } from './features/authentication/components/stren
     AppRoutingModule,
 
     AlumnoModule,
+
+    MatToolbarModule,
+
 
     BrowserAnimationsModule
   ],

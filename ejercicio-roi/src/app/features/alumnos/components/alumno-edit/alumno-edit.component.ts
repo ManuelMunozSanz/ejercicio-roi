@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ArraysPaises } from '../../data/arraysPaises';
 import { Alumno } from '../../models/alumno.model';
 import { AlumnoService } from '../../services/alumno.service';
+import { SHA256, enc } from "crypto-js";
+
 
 @Component({
   selector: 'app-alumno-edit',
@@ -19,15 +21,19 @@ export class AlumnoEditComponent implements OnInit {
 
   hidePass = true;
 
-  dniParam : string = ""
+  dniParam: string = ""
+  newPass: boolean = false;
+  private _passwordAlumno : string = "";
 
   constructor(
     public alumnoService: AlumnoService,
-    private router : Router,
+    private router: Router,
     private route: ActivatedRoute
   ) {
     this.dniParam = route.snapshot.params['id'];
     let alumnoEdit = alumnoService.getAlumno(this.dniParam);
+
+    this._passwordAlumno = alumnoEdit._contrasena;
 
 
     this.alumnoEdit = new FormGroup({
@@ -64,7 +70,7 @@ export class AlumnoEditComponent implements OnInit {
       ),
       localidad: new FormControl(alumnoEdit._localidad, [Validators.required]),
       nickname: new FormControl(alumnoEdit._nickname, [Validators.required]),
-      contrasena: new FormControl(alumnoEdit._contrasena,
+      contrasena: new FormControl({ value: '', disabled: true },
         [
           Validators.required,
           Validators.minLength(6)
@@ -77,9 +83,25 @@ export class AlumnoEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit() {
+  enablePass() {
+    if(!this.newPass){
+      this.alumnoEdit.get("contrasena")?.enable();
+      this.newPass = true;
+    }else{
+      this.alumnoEdit.get("contrasena")?.disable();
+      this.newPass = false;
+    }
+  }
 
-    let alumno : Alumno = new Alumno(
+  onSubmit() {
+    let updatedPass = "";
+    if (this.newPass) {
+      updatedPass =SHA256(this.alumnoEdit.value.contrasena).toString(enc.Hex) ;
+    }else{
+      updatedPass = this._passwordAlumno;
+    }
+
+    let alumno: Alumno = new Alumno(
       this.alumnoEdit.value.nombre,
       this.alumnoEdit.value.apellido1,
       this.alumnoEdit.value.apellido2,
@@ -92,13 +114,16 @@ export class AlumnoEditComponent implements OnInit {
       this.alumnoEdit.value.codigoPostal,
       this.alumnoEdit.value.localidad,
       this.alumnoEdit.value.nickname,
-      this.alumnoEdit.value.contraena,
+      updatedPass,
     );
 
-    this.alumnoService.setAlumno(alumno);
-    this.alumnoEdit.reset();
-    this.router.navigate(['/list']);
+    if (!this.newPass || this.alumnoService.strengthPuntuation < 8 && confirm("La contraseña es inferior a 8 puntos, ¿Quieres manternerla?")
+      || this.alumnoService.strengthPuntuation > 8) {
 
+      this.alumnoService.setAlumno(alumno);
+      this.alumnoEdit.reset();
+      this.router.navigate(['/list']);
+    }
 
 
   }
