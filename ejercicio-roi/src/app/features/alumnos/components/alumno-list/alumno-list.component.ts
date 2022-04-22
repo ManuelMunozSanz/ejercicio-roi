@@ -19,11 +19,10 @@ export class AlumnoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.alumnosList = this.alumnoService.getAllAlumnos();
-    this.alumnosListFilter = this.alumnosList;
+    this.alumnosListFilter = [...this.alumnosList];
   }
 
   removeAlumno(dni: string) {
-    console.log("dni: ", dni);
     this.alumnoService.removeAlumno(dni);
 
     for (let i = 0; i < this.alumnosList.length; i++) {

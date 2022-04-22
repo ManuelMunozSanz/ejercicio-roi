@@ -105,7 +105,7 @@ export class AlumnoFormComponent implements OnInit {
       || this.alumnoService.strengthPuntuation >= 8) {
 
       if (this.alumnoService.addAlumno(alumno)) {
-        this.alumnoForm.reset();
+       // this.alumnoForm.reset();
         this.router.navigate(['/list']);
 
       } else {
