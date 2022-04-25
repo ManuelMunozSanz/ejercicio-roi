@@ -38,6 +38,7 @@
     <input matInput formControlName="telefonoMovil" />
   </mat-form-field>
 
+
   <mat-form-field appearance="fill">
     <mat-label>Otro teléfono</mat-label>
     <input matInput formControlName="otroTelefono" />
@@ -47,17 +48,14 @@
 
   <mat-form-field appearance="fill">
     <mat-label>País</mat-label>
-    <mat-select formControlName="pais">
+    <mat-select formControlName="pais" (selectionChange)="changePaisEvent(pais.value)" #pais>
       <mat-option *ngFor="let pais of paises" [value]="pais">
         {{ pais }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field
-    appearance="fill"
-    *ngIf="alumnoForm.value.pais === 'España'; else writeProvicia"
-  >
+  <mat-form-field appearance="fill" *ngIf="alumnoForm.value.pais === 'España'; else writeProvicia">
     <mat-label>Provincia</mat-label>
     <mat-select formControlName="provincia">
       <mat-option *ngFor="let provincia of provincias" [value]="provincia">

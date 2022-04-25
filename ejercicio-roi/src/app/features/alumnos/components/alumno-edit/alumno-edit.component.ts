@@ -93,6 +93,17 @@ export class AlumnoEditComponent implements OnInit {
     }
   }
 
+  changePaisEvent(pais: string) {
+    if (pais === "España") {
+      this.alumnoEdit.controls["telefonoMovil"].setValidators([Validators.pattern(/^(0034|\+34|34)?(6\d{2}|7\d{2}|9[1-9]\d{1})\d{6}$/)]);
+      this.alumnoEdit.controls["telefonoMovil"].updateValueAndValidity();
+    }else{
+      this.alumnoEdit.controls["telefonoMovil"].clearValidators;
+      this.alumnoEdit.controls["telefonoMovil"].setValidators([Validators.required]);
+      this.alumnoEdit.controls["telefonoMovil"].updateValueAndValidity();
+    }
+  }
+
   onSubmit() {
     let updatedPass = "";
     if (this.newPass) {

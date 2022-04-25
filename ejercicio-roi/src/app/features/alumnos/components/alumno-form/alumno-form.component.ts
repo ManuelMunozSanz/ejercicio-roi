@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArraysPaises } from '../../data/arraysPaises';
 import { Router } from '@angular/router';
 import { SHA256, enc } from "crypto-js";
+import { SpanishDniValidator } from '../../validators/spanish.dni.validator';
 
 
 @Component({
@@ -38,16 +39,10 @@ export class AlumnoFormComponent implements OnInit {
           Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
         ]
       ),
-      dni: new FormControl(null,
-        [
-          Validators.required,
-          Validators.pattern("^[0-9]{8}[a-zA-Z]{1}$")
-        ]
-      ),
+      dni: new FormControl(null,[Validators.required]),
       telefonoMovil: new FormControl(null,
         [
           Validators.required,
-          Validators.pattern("[0-9]{9}")
         ]
       ),
       otroTelefono: new FormControl(null),
@@ -77,8 +72,27 @@ export class AlumnoFormComponent implements OnInit {
     localStorage.setItem(alumnoPrueba._dni, JSON.stringify(alumnoPrueba));
     localStorage.setItem(alumnoPrueba2._dni, JSON.stringify(alumnoPrueba2));
     localStorage.setItem(alumnoPrueba3._dni, JSON.stringify(alumnoPrueba3));
+  }
 
+  changePaisEvent(pais: string) {
+    if (pais === "España") {
+      this.alumnoForm.controls["telefonoMovil"].setValidators([Validators.pattern(/^(0034|\+34|34)?(6\d{2}|7\d{2}|9[1-9]\d{1})\d{6}$/)] );
+      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
 
+      this.alumnoForm.get('dni')?.addValidators(SpanishDniValidator.isValidDni());
+      console.log(SpanishDniValidator.isValidDni());
+
+      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
+
+    }else{
+      this.alumnoForm.controls["telefonoMovil"].clearValidators;
+      this.alumnoForm.controls["telefonoMovil"].setValidators([Validators.required]);
+      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
+
+      this.alumnoForm.controls["dni"].clearValidators;
+      this.alumnoForm.controls["dni"].setValidators([Validators.required]);
+      this.alumnoForm.controls["dni"].updateValueAndValidity();
+    }
   }
 
   onSubmit() {
@@ -105,7 +119,7 @@ export class AlumnoFormComponent implements OnInit {
       || this.alumnoService.strengthPuntuation >= 8) {
 
       if (this.alumnoService.addAlumno(alumno)) {
-       // this.alumnoForm.reset();
+        // this.alumnoForm.reset();
         this.router.navigate(['/list']);
 
       } else {

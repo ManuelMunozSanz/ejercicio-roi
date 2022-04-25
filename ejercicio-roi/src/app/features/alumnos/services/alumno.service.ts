@@ -51,6 +51,8 @@ export class AlumnoService {
     return allAlumnos;
   }
 
+
+
   set strengthPuntuation(num : number){
     this._strengthPuntuation = num;
   }
