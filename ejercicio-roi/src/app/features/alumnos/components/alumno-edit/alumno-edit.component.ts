@@ -23,7 +23,7 @@ export class AlumnoEditComponent implements OnInit {
 
   dniParam: string = ""
   newPass: boolean = false;
-  private _passwordAlumno : string = "";
+  private _passwordAlumno: string = "";
 
   constructor(
     public alumnoService: AlumnoService,
@@ -50,7 +50,6 @@ export class AlumnoEditComponent implements OnInit {
       dni: new FormControl(alumnoEdit._dni,
         [
           Validators.required,
-          Validators.pattern("^[0-9]{8}[a-zA-Z]{1}$")
         ],
       ),
       telefonoMovil: new FormControl(alumnoEdit._telefonoMovil,
@@ -84,31 +83,24 @@ export class AlumnoEditComponent implements OnInit {
   }
 
   enablePass() {
-    if(!this.newPass){
+    if (!this.newPass) {
       this.alumnoEdit.get("contrasena")?.enable();
       this.newPass = true;
-    }else{
+    } else {
       this.alumnoEdit.get("contrasena")?.disable();
       this.newPass = false;
     }
   }
 
   changePaisEvent(pais: string) {
-    if (pais === "España") {
-      this.alumnoEdit.controls["telefonoMovil"].setValidators([Validators.pattern(/^(0034|\+34|34)?(6\d{2}|7\d{2}|9[1-9]\d{1})\d{6}$/)]);
-      this.alumnoEdit.controls["telefonoMovil"].updateValueAndValidity();
-    }else{
-      this.alumnoEdit.controls["telefonoMovil"].clearValidators;
-      this.alumnoEdit.controls["telefonoMovil"].setValidators([Validators.required]);
-      this.alumnoEdit.controls["telefonoMovil"].updateValueAndValidity();
-    }
+    this.alumnoService.changePaisEvent(this.alumnoEdit, pais);
   }
 
   onSubmit() {
     let updatedPass = "";
     if (this.newPass) {
-      updatedPass =SHA256(this.alumnoEdit.value.contrasena).toString(enc.Hex) ;
-    }else{
+      updatedPass = SHA256(this.alumnoEdit.value.contrasena).toString(enc.Hex);
+    } else {
       updatedPass = this._passwordAlumno;
     }
 
