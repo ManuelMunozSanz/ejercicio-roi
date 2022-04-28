@@ -3,6 +3,7 @@
   <input matInput placeholder="Nombre/apellidos/dni/email" (keyup)="applyFilter($event)" #input>
 </mat-form-field>
 
+
 <mat-accordion>
   <mat-expansion-panel *ngFor="let alumno of alumnosListFilter">
     <mat-expansion-panel-header>
