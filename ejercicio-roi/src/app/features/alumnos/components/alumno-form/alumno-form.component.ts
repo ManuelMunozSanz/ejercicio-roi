@@ -75,24 +75,7 @@ export class AlumnoFormComponent implements OnInit {
   }
 
   changePaisEvent(pais: string) {
-    if (pais === "España") {
-      this.alumnoForm.controls["telefonoMovil"].setValidators([Validators.pattern(/^(0034|\+34|34)?(6\d{2}|7\d{2}|9[1-9]\d{1})\d{6}$/)] );
-      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
-
-      this.alumnoForm.get('dni')?.addValidators(SpanishDniValidator.isValidDni());
-      console.log(SpanishDniValidator.isValidDni());
-
-      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
-
-    }else{
-      this.alumnoForm.controls["telefonoMovil"].clearValidators;
-      this.alumnoForm.controls["telefonoMovil"].setValidators([Validators.required]);
-      this.alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
-
-      this.alumnoForm.controls["dni"].clearValidators;
-      this.alumnoForm.controls["dni"].setValidators([Validators.required]);
-      this.alumnoForm.controls["dni"].updateValueAndValidity();
-    }
+    this.alumnoService.changePaisEvent(this.alumnoForm, pais);
   }
 
   onSubmit() {

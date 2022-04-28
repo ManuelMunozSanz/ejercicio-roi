@@ -1,5 +1,7 @@
 import { Alumno } from './../models/alumno.model';
 import { Injectable } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
+import { SpanishDniValidator } from '../validators/spanish.dni.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +54,26 @@ export class AlumnoService {
   }
 
 
+  changePaisEvent(alumnoForm : FormGroup, pais:string){
+    if (pais === "España") {
+      alumnoForm.controls["telefonoMovil"].setValidators([Validators.pattern(/^(0034|\+34|34)?(6\d{2}|7\d{2}|9[1-9]\d{1})\d{6}$/)] );
+      alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
+      alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
+
+      alumnoForm.controls['dni'].addValidators(SpanishDniValidator.isValidDni());
+      alumnoForm.controls["dni"].updateValueAndValidity();
+
+
+    }else{
+      alumnoForm.controls["telefonoMovil"].clearValidators;
+      alumnoForm.controls["telefonoMovil"].setValidators([Validators.required]);
+      alumnoForm.controls["telefonoMovil"].updateValueAndValidity();
+
+      alumnoForm.controls["dni"].clearValidators;
+      alumnoForm.controls["dni"].setValidators([Validators.required]);
+      alumnoForm.controls["dni"].updateValueAndValidity();
+    }
+  }
 
   set strengthPuntuation(num : number){
     this._strengthPuntuation = num;
